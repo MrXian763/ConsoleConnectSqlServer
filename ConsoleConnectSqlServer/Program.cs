@@ -13,6 +13,7 @@ namespace ConsoleConnectSqlServer
             Console.WriteLine("欢迎访问登录系统!!!");
             Console.WriteLine("请在下方输入您的用户名和密码");
             DataTable dt;
+            // 验证用户名和密码
             while (true)
             {
                 Console.Write("请输入用户名：");
@@ -31,14 +32,44 @@ namespace ConsoleConnectSqlServer
                     break;
             }
             Console.WriteLine($"欢迎使用：{dt.Rows[0]["NickName"]}");
+            // 读取性别，如果性别为空强制用户录入
+            string sex = dt.Rows[0]["Sex"].ToString();
+            if (string.IsNullOrEmpty(sex))
+            {
+                Console.WriteLine($"尊敬的{dt.Rows[0]["NickName"]}，请录入性别信息");
+                while (true)
+                {
+                    Console.WriteLine("请选择性别：1-男；2-女");
+                    string selectSex = Console.ReadLine();
+                    if (selectSex == "1")
+                        sex = "男";
+                    else if (selectSex == "2")
+                        sex = "女";
+                    else
+                    {
+                        Console.WriteLine("输入有误，请重试");
+                        continue;
+                    }
 
-            // 查询所有用户信息
+                    // 更新性别到数据库
+                    string updateSql = $"update UserT set Sex = '{sex}' where UserName = '{dt.Rows[0]["UserName"]}';";
+                    int count = EditData(updateSql);
+                    if (count > 0)
+                        Console.WriteLine("更新成功！");
+                    else
+                        Console.WriteLine("更新失败！");
+                    break;
+                }
+                
+            }
+
+            // 查询展示所有用户列表   
             string selectAllUser = "select * from UserT;";
             dt = SelectData(selectAllUser);
             Console.WriteLine("查询所有用户信息");
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Console.WriteLine($"用户名：{dt.Rows[i]["UserName"]}; 昵称：{dt.Rows[i]["NickName"]}");
+                Console.WriteLine($"用户名：{dt.Rows[i]["UserName"]}; 昵称：{dt.Rows[i]["NickName"]}; 性别：{dt.Rows[i]["Sex"]}");
             }
             #endregion
 
