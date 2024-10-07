@@ -68,37 +68,23 @@ namespace ConsoleConnectSqlServer
             #endregion
 
             #region 查询用户数据输出
-            // 查询展示所有用户列表   
-            List<UserTModel> users = UserTOperation.QueryAllUser();
-
-            Console.WriteLine(InfoHelper.SelectAllUserInfo);
-
-            // 输出用户集合数据
-            foreach (UserTModel userModel in users)
+            List<UserTAndUserScoresTModel> dataList = UserTAndUserScoresTOperation.QueryAllData();
+            foreach (UserTAndUserScoresTModel userData in dataList)
             {
-                // 查询用户成绩
-                UserScoresTModel userScore = UserScoresOperation.GetTopOneUserScoresByUserNameOrderByDate(userModel.UserName);
-
-                string userSex = userModel.Sex;
+                string userSex = userData.Sex;
                 if (userSex == "1")
                     userSex = InfoHelper.Sex1;
                 else if (userSex == "2")
                     userSex = InfoHelper.Sex2;
                 str = InfoHelper.UserOutputInfo;
-                str = str.Replace("@NickName", userModel.NickName);
+                str = str.Replace("@NickName", userData.NickName);
                 str = str.Replace("@Sex", userSex);
-                str = str.Replace("@UserName", userModel.UserName);
-                if (userScore == null)
-                {
-                    Console.WriteLine($"{str} 0 0 0");
-                    continue;
-                }
-                InfoHelper.UserScoresOutputInfo = InfoHelper.UserScoresOutputInfo.Replace("@ChineseScore", userScore.Chinese.ToString());
-                InfoHelper.UserScoresOutputInfo = InfoHelper.UserScoresOutputInfo.Replace("@MathScore", userScore.Math.ToString());
-                InfoHelper.UserScoresOutputInfo = InfoHelper.UserScoresOutputInfo.Replace("@EnglishScore", userScore.English.ToString());
-                InfoHelper.UserScoresOutputInfo = InfoHelper.UserScoresOutputInfo.Replace("@RecordTime", userScore.RecordTime.ToString());
+                str = str.Replace("@UserName", userData.UserName);
+                InfoHelper.UserScoresOutputInfo = InfoHelper.UserScoresOutputInfo.Replace("@ChineseScores", userData.Chinese.ToString());
+                InfoHelper.UserScoresOutputInfo = InfoHelper.UserScoresOutputInfo.Replace("@MathScores", userData.Math.ToString());
+                InfoHelper.UserScoresOutputInfo = InfoHelper.UserScoresOutputInfo.Replace("@EnglishScores", userData.English.ToString());
+                InfoHelper.UserScoresOutputInfo = InfoHelper.UserScoresOutputInfo.Replace("@RecordTime", userData.RecordTime.ToString());
                 Console.WriteLine($"{str} {InfoHelper.UserScoresOutputInfo}");
-                
             }
             #endregion
 

@@ -50,6 +50,8 @@
     <Compile Include="SqlHelper.cs" />
     <Compile Include="UserScoresOperation.cs" />
     <Compile Include="UserScoresTModel.cs" />
+    <Compile Include="UserTAndUserScoresTModel.cs" />
+    <Compile Include="UserTAndUserScoresTOperation.cs" />
     <Compile Include="UserTModel.cs" />
     <Compile Include="UserTOperation.cs" />
   </ItemGroup>
