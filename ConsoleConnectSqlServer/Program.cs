@@ -12,40 +12,34 @@ namespace ConsoleConnectSqlServer
             // 打印系统基本信息
             Console.WriteLine("欢迎访问登录系统!!!");
             Console.WriteLine("请在下方输入您的用户名和密码");
-            Console.Write("请输入用户名：");
-            string inputUserName = Console.ReadLine();
-            Console.Write("请输入密码：");
-            string inputPassword = Console.ReadLine();
-
-            // 将用户的输入与数据库中的数据比对
-            string selectSql = $"select * from UserT where UserName = '{inputUserName}' and Password = '{inputPassword}'";
-            DataTable dt = SelectData(selectSql);
-
-            int count = dt.Rows.Count;
-            if (count <= 0)
+            DataTable dt;
+            while (true)
             {
-                Console.WriteLine("用户名或密码错误");
-                return;
-            }
+                Console.Write("请输入用户名：");
+                string inputUserName = Console.ReadLine();
+                Console.Write("请输入密码：");
+                string inputPassword = Console.ReadLine();
 
+                // 将用户的输入与数据库中的数据比对
+                string selectSql = $"select * from UserT where UserName = '{inputUserName}' and Password = '{inputPassword}'";
+                dt = SelectData(selectSql);
+
+                int count = dt.Rows.Count;
+                if (count <= 0)
+                    Console.WriteLine("用户名或密码错误，请重试");
+                else
+                    break;
+            }
             Console.WriteLine($"欢迎使用：{dt.Rows[0]["NickName"]}");
 
-            //bool flag = false;
-            //for (int i = 0; i < dt.Rows.Count; i++)
-            //{
-            //    string userName = dt.Rows[i]["UserName"].ToString();
-            //    string password = dt.Rows[i]["Password"].ToString();
-
-            //    if (inputPassword == password && inputUserName == userName)
-            //    {
-            //        flag = true;
-            //        break;
-            //    }
-            //}
-            //if (flag)
-            //    Console.WriteLine("用户名与密码正确");
-            //else
-            //    Console.WriteLine("用户名或密码错误");
+            // 查询所有用户信息
+            string selectAllUser = "select * from UserT;";
+            dt = SelectData(selectAllUser);
+            Console.WriteLine("查询所有用户信息");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                Console.WriteLine($"用户名：{dt.Rows[i]["UserName"]}; 昵称：{dt.Rows[i]["NickName"]}");
+            }
             #endregion
 
 
