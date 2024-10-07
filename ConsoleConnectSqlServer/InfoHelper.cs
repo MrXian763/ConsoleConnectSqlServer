@@ -19,6 +19,7 @@ namespace ConsoleConnectSqlServer
         public static string UpdateErrInfo { get; set; }
         public static string SelectAllUserInfo { get; set; }
         public static string UserOutputInfo { get; set; }
+        public static string UserScoresOutputInfo { get; set; }
 
         /// <summary>
         /// 系统语言初始化
@@ -45,6 +46,7 @@ namespace ConsoleConnectSqlServer
                 UpdateErrInfo = "Update failed!";
                 SelectAllUserInfo = "Query all user information";
                 UserOutputInfo = "Username: @UserName; Nickname: @NickName; Gender: @Sex";
+                UserScoresOutputInfo = "Chinese Score: @ChineseScore Math Score: @MathScores English Score: @EnglishScores Record Date: @RecordTime";
             }
             else
             {
@@ -63,6 +65,7 @@ namespace ConsoleConnectSqlServer
                 UpdateErrInfo = "更新失败！";
                 SelectAllUserInfo = "查询所有用户信息";
                 UserOutputInfo = "用户名：@UserName; 昵称：@NickName; 性别：@Sex";
+                UserScoresOutputInfo = "语文成绩：@ChineseScores 数学成绩：@MathScores 英语成绩：@EnglishScores 记录日期：@RecordTime";
             }
         }
     }

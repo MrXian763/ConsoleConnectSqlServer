@@ -76,6 +76,9 @@ namespace ConsoleConnectSqlServer
             // 输出用户集合数据
             foreach (UserTModel userModel in users)
             {
+                // 查询用户成绩
+                UserScoresTModel userScore = UserScoresOperation.GetTopOneUserScoresByUserNameOrderByDate(userModel.UserName);
+
                 string userSex = userModel.Sex;
                 if (userSex == "1")
                     userSex = InfoHelper.Sex1;
@@ -85,7 +88,17 @@ namespace ConsoleConnectSqlServer
                 str = str.Replace("@NickName", userModel.NickName);
                 str = str.Replace("@Sex", userSex);
                 str = str.Replace("@UserName", userModel.UserName);
-                Console.WriteLine(str);
+                if (userScore == null)
+                {
+                    Console.WriteLine($"{str} 0 0 0");
+                    continue;
+                }
+                InfoHelper.UserScoresOutputInfo = InfoHelper.UserScoresOutputInfo.Replace("@ChineseScore", userScore.Chinese.ToString());
+                InfoHelper.UserScoresOutputInfo = InfoHelper.UserScoresOutputInfo.Replace("@MathScore", userScore.Math.ToString());
+                InfoHelper.UserScoresOutputInfo = InfoHelper.UserScoresOutputInfo.Replace("@EnglishScore", userScore.English.ToString());
+                InfoHelper.UserScoresOutputInfo = InfoHelper.UserScoresOutputInfo.Replace("@RecordTime", userScore.RecordTime.ToString());
+                Console.WriteLine($"{str} {InfoHelper.UserScoresOutputInfo}");
+                
             }
             #endregion
 
