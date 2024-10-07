@@ -27,6 +27,23 @@ namespace ConsoleConnectSqlServer
             return datas;
         }
 
+        /// <summary>
+        /// 加载用户以及最新的成绩数据
+        /// </summary>
+        public static List<UserTAndUserScoresTModel> QueryLatestData()
+        {
+            string sql = "select u.UserName, u.Password, u.NickName, u.Sex, s.Chinese, s.English, s.Math, s.RecordTime from UserT as u left join (select UserScoresT.* from UserScoresT inner join (select UserName, Max(RecordTime) as RecordTime from UserScoresT group by UserName) as groupt on UserScoresT.UserName = groupt.UserName and UserScoresT.RecordTime = groupt.RecordTime)  as s on u.UserName = s.UserName;";
+            DataTable allDataTable = SqlHelper.SelectData(sql);
+            // 将查询出的用户对象添加到集合
+            List<UserTAndUserScoresTModel> datas = new List<UserTAndUserScoresTModel>();
+            for (int i = 0; i < allDataTable.Rows.Count; i++)
+            {
+                UserTAndUserScoresTModel model = DataRowToModel(allDataTable.Rows[i]);
+                datas.Add(model);
+            }
+            return datas;
+        }
+
         public static UserTAndUserScoresTModel DataRowToModel(DataRow row)
         {
             UserTAndUserScoresTModel model = new UserTAndUserScoresTModel();

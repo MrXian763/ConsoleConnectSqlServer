@@ -68,7 +68,7 @@ namespace ConsoleConnectSqlServer
             #endregion
 
             #region 查询用户数据输出
-            List<UserTAndUserScoresTModel> dataList = UserTAndUserScoresTOperation.QueryAllData();
+            List<UserTAndUserScoresTModel> dataList = UserTAndUserScoresTOperation.QueryLatestData();
             foreach (UserTAndUserScoresTModel userData in dataList)
             {
                 string userSex = userData.Sex;
