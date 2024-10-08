@@ -6,17 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleConnectSqlServer
+namespace ConsoleConnectSqlServer.EF6
 {
     [Table("UserScoresT")]
-    public class UserScoresTModel
+    public class UserScoresTModelForEF
     {
         [Key]
         public int ID { get; set; }
         public string UserName { get; set; }
-        public float Chinese { get; set; }
-        public float English { get; set; }
-        public float Math { get; set; }
+        public double Chinese { get; set; }
+        public double English { get; set; }
+        public double Math { get; set; }
         public DateTime RecordTime { get; set; }
     }
 }
