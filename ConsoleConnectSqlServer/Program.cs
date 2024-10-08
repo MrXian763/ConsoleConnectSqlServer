@@ -86,6 +86,29 @@ namespace ConsoleConnectSqlServer
             #endregion
 
             #region 查询用户数据输出
+
+            // 使用Query语句方式查询数据
+            using (MyDBContext myDB = new MyDBContext())
+            {
+                var query = from usert in myDB.UserT
+                            join userscorest in myDB.UserScoresT
+                            on usert.UserName equals userscorest.UserName
+                            into utus
+                            from userscorest in utus.OrderByDescending(e => e.RecordTime).Take(1).DefaultIfEmpty()
+                            select new UserTAndUserScoresTModelForEF
+                            {
+                                UserName = usert.UserName,
+                                NickName = usert.NickName,
+                                Sex = usert.Sex,
+                                Password = usert.Password,
+                                Chinese = userscorest.Chinese,
+                                English = userscorest.English,
+                                Math = userscorest.Math,
+                                RecordTime = userscorest.RecordTime,
+                            };
+                List<UserTAndUserScoresTModelForEF> list = query.ToList();
+            }
+
             using (MyDBContext myDB = new MyDBContext())
             {
                 // 查询所有UserT数据
